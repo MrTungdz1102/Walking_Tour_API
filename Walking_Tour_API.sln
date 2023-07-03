@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Walking_Tour_API", "Walking_Tour_API\Walking_Tour_API.csproj", "{4331680C-405A-4FBA-B43A-8FE9EF1B198F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Walking_Tour_API", "Walking_Tour_API\Walking_Tour_API.csproj", "{4331680C-405A-4FBA-B43A-8FE9EF1B198F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Walking_Tour_API.UI", "Walking_Tour_API.UI\Walking_Tour_API.UI.csproj", "{EB280EEB-A51E-4C5A-B0B8-F1F7221D3C7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Walking_Tour_API.UI", "Walking_Tour_API.UI\Walking_Tour_API.UI.csproj", "{EB280EEB-A51E-4C5A-B0B8-F1F7221D3C7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Walking_Tour_API.Core", "Walking_Tour_API.Core\Walking_Tour_API.Core.csproj", "{94D52886-FF75-4A78-AAC3-C3753E672E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Walking_Tour_API.Core", "Walking_Tour_API.Core\Walking_Tour_API.Core.csproj", "{94D52886-FF75-4A78-AAC3-C3753E672E9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Walking_Tour_API.Data", "Walking_Tour_API.Data\Walking_Tour_API.Data.csproj", "{050937E9-050F-4297-AD2A-AF472DABDF57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Walking_Tour_API.Infrastructure", "Walking_Tour_API.Data\Walking_Tour_API.Infrastructure.csproj", "{050937E9-050F-4297-AD2A-AF472DABDF57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
