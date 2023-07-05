@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Walking_Tour_API.Core.Models.Domain;
+using Walking_Tour_API.Infrastructure.Configuration;
 
 namespace Walking_Tour_API.Infrastructure.Context
 {
@@ -20,9 +21,10 @@ namespace Walking_Tour_API.Infrastructure.Context
 		public DbSet<Travel> Travels { get; set; }
 		public DbSet<Difficulty> Difficulties { get; set; }
 
-		//protected override void OnModelCreating(ModelBuilder modelBuilder)
-		//{
-		//	base.OnModelCreating(modelBuilder);
-		//}
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+			modelBuilder.ApplyConfiguration(new RegionConfiguration());
+		}
 	}
 }
