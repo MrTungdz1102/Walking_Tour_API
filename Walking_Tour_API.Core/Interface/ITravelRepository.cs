@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Walking_Tour_API.Core.Models.Domain;
 
 namespace Walking_Tour_API.Core.Interface
 {
-	public interface IUnitOfWork
+	public interface ITravelRepository : IGenericRepository<Travel>
 	{
-		IRegionRepository Region { get; }
-		ITravelRepository Travel { get; }
-		Task SaveAsync();
+		Task<Travel> GetDetail(Guid id);
 	}
 }

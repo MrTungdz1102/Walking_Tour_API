@@ -25,6 +25,7 @@ namespace Walking_Tour_API.Infrastructure.Context
 		{
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.ApplyConfiguration(new RegionConfiguration());
+			modelBuilder.ApplyConfiguration(new DifficultyConfiguration());
 		}
 	}
 }

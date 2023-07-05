@@ -1,11 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Walking_Tour_API.Core.Models.Domain;
 
 namespace Walking_Tour_API.Infrastructure.Configuration
@@ -15,9 +9,12 @@ namespace Walking_Tour_API.Infrastructure.Configuration
 		public void Configure(EntityTypeBuilder<Region> builder)
 		{
 			builder.HasData(
-				new Region { Id = Guid.NewGuid(), Code = "111", Name = "Region 1", RegionImageUrl = "Image Region 1"},
-				new Region { Id = Guid.NewGuid(), Code = "222", Name = "Region 2", RegionImageUrl = "Image Region 2" },
-				new Region { Id = Guid.NewGuid(), Code = "333", Name = "Region 3", RegionImageUrl = "Image Region 3" }
+				new Region { Id = Guid.NewGuid(), Code = "AKL", Name = "Auckland", RegionImageUrl = null },
+				new Region { Id = Guid.NewGuid(), Code = "NTL", Name = "Northland", RegionImageUrl = null },
+				new Region { Id = Guid.NewGuid(), Code = "BOP", Name = "Bay Of Plenty", RegionImageUrl = null },
+				new Region { Id = Guid.NewGuid(), Code = "WGN", Name = "Wellington", RegionImageUrl = "https://images.pexels.com/photos/4350631/pexels-photo-4350631.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+				new Region { Id = Guid.NewGuid(), Code = "NSN", Name = "Nelson", RegionImageUrl = null },
+				new Region { Id = Guid.NewGuid(), Code = "STL", Name = "Southland", RegionImageUrl = "https://images.pexels.com/photos/4350631/pexels-photo-4350631.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
 				);
 		}
 	}

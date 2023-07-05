@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Walking_Tour_API.Core.Models.Domain;
 using Walking_Tour_API.Core.Models.DTO.Region;
+using Walking_Tour_API.Core.Models.DTO.Travel;
 
 namespace Walking_Tour_API.Core.Mapping
 {
@@ -19,6 +20,12 @@ namespace Walking_Tour_API.Core.Mapping
 			CreateMap<Region, GetRegionDTO>().ReverseMap();
 			CreateMap<Region, AddRegionDTO>().ReverseMap();
 			CreateMap<Region, UpdateRegionDTO>().ReverseMap();
+
+			CreateMap<Travel, GetTravelDTO>().ReverseMap();
+			CreateMap<Travel, AddTravelDTO>().ReverseMap();
+			CreateMap<Travel, UpdateTravelDTO>().ReverseMap();
+			CreateMap<Travel, DetailTravelDTO>().ReverseMap();
+
 		}
 	}
 }

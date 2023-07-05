@@ -12,10 +12,12 @@ namespace Walking_Tour_API.Infrastructure.Repository
 	{
 		private readonly TourAPIDbContext _context;
 		public IRegionRepository Region { get; private set; }
+		public ITravelRepository Travel { get; private set; }
 		public UnitOfWork(TourAPIDbContext context)
 		{
 			_context = context;
 			Region = new RegionRepository(_context);
+			Travel = new TraveRepository(_context);
 		}
 
 		public async Task SaveAsync()
