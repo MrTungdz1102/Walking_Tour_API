@@ -1,4 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
+using System.Linq.Expressions;
+using System.Reflection;
 using Walking_Tour_API.Core.Interface;
 using Walking_Tour_API.Infrastructure.Context;
 using Walking_Tour_API.Infrastructure.Exception;
@@ -97,9 +101,16 @@ namespace Walking_Tour_API.Infrastructure.Repository
 			return result;
 		}
 
-		public async Task<List<T>> GetAllAsync()
+		public async Task<List<T>> GetAllAsync(int pageNumber = 1, int pageSize = 10, Expression<Func<T, object>> orderBy = null)
 		{
-			return await _dbSet.ToListAsync();
+			var skipResult = (pageNumber - 1) * pageSize;
+			IQueryable<T> query = _dbSet;
+			if (orderBy != null)
+			{
+				query = query.OrderBy(orderBy);
+			}
+			// hoac co the su dung .ProjectTo<TResult>(_mapper.ConfigurationProvider) de khong phai order by
+			return await query.Skip(skipResult).Take(pageSize).ToListAsync();
 		}
 
 		public async Task<T> UpdateAsync(Guid id)

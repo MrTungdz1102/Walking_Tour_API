@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace Walking_Tour_API.Core.Interface
 		Task<T> FindAsync(Guid id);
 		Task<T> CreateAsync(T entity);
 		Task<T> Delete(Guid id);
-		Task<List<T>> GetAllAsync();
+		Task<List<T>> GetAllAsync(int pageNumber = 1, int pageSize = 10, Expression<Func<T, object>> orderBy = null);
 		Task<T> UpdateAsync(Guid id);
 	}
 }

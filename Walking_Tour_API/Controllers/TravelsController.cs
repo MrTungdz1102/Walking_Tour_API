@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Walking_Tour_API.Core.Interface;
 using Walking_Tour_API.Core.Models.Domain;
 using Walking_Tour_API.Core.Models.DTO.Region;
 using Walking_Tour_API.Core.Models.DTO.Travel;
+using Walking_Tour_API.Infrastructure.CustomActionFilter;
 
 namespace Walking_Tour_API.Controllers
 {
@@ -28,14 +30,16 @@ namespace Walking_Tour_API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetAllTravel()
+		[EnableQuery]
+		public async Task<IActionResult> GetAllTravel([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
 		{
-			var travels = await _unit.Travel.GetAllAsync();
+			var travels = await _unit.Travel.GetAllAsync(pageNumber, pageSize, orderBy: r => r.Name);
 			var result = _mapper.Map<List<GetTravelDTO>>(travels);
 			return Ok(result);
 		}
 
 		[HttpPost]
+		[ValidateModel]
 		public async Task<IActionResult> CreateTravel([FromBody] AddTravelDTO addTravelDTO)
 		{
 			var travel = _mapper.Map<Travel>(addTravelDTO);
@@ -46,6 +50,7 @@ namespace Walking_Tour_API.Controllers
 		}
 
 		[HttpPut("{id:Guid}")]
+		[ValidateModel]
 		public async Task<IActionResult> EditTravel([FromRoute] Guid id, [FromBody] UpdateTravelDTO updateTravelDTO)
 		{
 			var travel = await _unit.Travel.FindAsync(id);

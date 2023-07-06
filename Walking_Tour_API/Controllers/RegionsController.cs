@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using System.Diagnostics.Metrics;
 using Walking_Tour_API.Core.Interface;
 using Walking_Tour_API.Core.Models.Domain;
 using Walking_Tour_API.Core.Models.DTO.Region;
 using Walking_Tour_API.Infrastructure.Context;
+using Walking_Tour_API.Infrastructure.CustomActionFilter;
 
 namespace Walking_Tour_API.Controllers
 {
@@ -21,10 +23,11 @@ namespace Walking_Tour_API.Controllers
 			_mapper = mapper;
 		}
 		[HttpGet]
-		public async Task<IActionResult> GetAllRegions()
+		[EnableQuery]
+		public async Task<IActionResult> GetAllRegions([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10) 
 		{
 			// Get Data From Database - Domain models
-			var regions = await _unit.Region.GetAllAsync();
+			var regions = await _unit.Region.GetAllAsync(pageNumber,pageSize,orderBy: r => r.Name);
 			// map domain models to DTOs
 			var result = _mapper.Map<List<GetRegionDTO>>(regions);
 			return Ok(result);
@@ -39,6 +42,7 @@ namespace Walking_Tour_API.Controllers
 		}
 
 		[HttpPost]
+		[ValidateModel]
 		public async Task<IActionResult> CreateRegion([FromBody] AddRegionDTO addRegionDTO)
 		{
 			var region = _mapper.Map<Region>(addRegionDTO);
@@ -50,6 +54,7 @@ namespace Walking_Tour_API.Controllers
 		}
 		
 		[HttpPut("{id:Guid}")]
+		[ValidateModel]
 		public async Task<IActionResult> EditRegion([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
 		{
 			var region = await _unit.Region.FindAsync(id);
