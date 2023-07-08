@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -13,6 +14,7 @@ namespace Walking_Tour_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+//	[Authorize]
 	public class RegionsController : ControllerBase
 	{
 		private readonly IUnitOfWork _unit;

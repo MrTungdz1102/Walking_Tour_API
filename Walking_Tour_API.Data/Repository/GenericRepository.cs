@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
 using System.Reflection;
-using Walking_Tour_API.Core.Interface;
+using Walking_Tour_API.Core.Interface.Repositories;
 using Walking_Tour_API.Infrastructure.Context;
 using Walking_Tour_API.Infrastructure.Exception;
 
 namespace Walking_Tour_API.Infrastructure.Repository
 {
-	public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
 	{
 		private readonly TourAPIDbContext _context;
 		internal DbSet<T> _dbSet;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Walking_Tour_API.Core.Models.Domain;
 using Walking_Tour_API.Core.Models.DTO.Region;
 using Walking_Tour_API.Core.Models.DTO.Travel;
+using Walking_Tour_API.Core.Models.DTO.User;
 
 namespace Walking_Tour_API.Core.Mapping
 {
@@ -26,6 +28,7 @@ namespace Walking_Tour_API.Core.Mapping
 			CreateMap<Travel, UpdateTravelDTO>().ReverseMap();
 			CreateMap<Travel, DetailTravelDTO>().ReverseMap();
 
+			CreateMap<IdentityUser, RegisterDTO>().ReverseMap();
 		}
 	}
 }

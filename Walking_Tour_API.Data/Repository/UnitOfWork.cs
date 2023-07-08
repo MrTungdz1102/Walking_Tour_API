@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Walking_Tour_API.Core.Interface;
+using Walking_Tour_API.Core.Interface.Repositories;
 using Walking_Tour_API.Infrastructure.Context;
 
 namespace Walking_Tour_API.Infrastructure.Repository
 {
-	public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
 	{
 		private readonly TourAPIDbContext _context;
 		public IRegionRepository Region { get; private set; }
