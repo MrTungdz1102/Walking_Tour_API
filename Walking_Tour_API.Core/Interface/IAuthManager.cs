@@ -11,6 +11,7 @@ namespace Walking_Tour_API.Core.Interface
 	public interface IAuthManager
 	{
 		Task<IEnumerable<IdentityError>> CreateUserAsync(RegisterDTO registerDTO);
-		 Task<bool> LoginAsync(LoginDTO loginDTO);
+		Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO);
+		Task<string> GenerateToken();
 	}
 }

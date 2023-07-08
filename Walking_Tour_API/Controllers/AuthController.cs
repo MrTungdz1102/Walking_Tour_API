@@ -54,7 +54,7 @@ namespace Walking_Tour_API.Controllers
 		public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
 		{
 			var result = await _auth.LoginAsync(loginDTO);
-			if (!result)
+			if (result == null)
 			{
 				return BadRequest("Username or password incorrect");
 			}
