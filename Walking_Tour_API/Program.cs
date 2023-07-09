@@ -2,19 +2,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using Walking_Tour_API.Core.Interface;
-using Walking_Tour_API.Core.Interface.Services;
+using Walking_Tour_API.Core.Interface.Repositories;
 using Walking_Tour_API.Core.Mapping;
-using Walking_Tour_API.Core.Services.Regions;
 using Walking_Tour_API.Infrastructure.Context;
 using Walking_Tour_API.Infrastructure.Middleware;
 using Walking_Tour_API.Infrastructure.Repository;
-using Walking_Tour_API.Core.Services;
-using Walking_Tour_API.Core.Models.Domain;
-using Walking_Tour_API.Core.Models.DTO.Region;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +25,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 // builder.Services.AddScoped<IRegionService, RegionService>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig)); // need automapper dependency injection
 
@@ -36,17 +34,20 @@ builder.Services.AddControllers().AddOData(options => // OData
 	options.Select().Filter().OrderBy();
 });
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddIdentityCore<IdentityUser>().AddRoles<IdentityRole>().AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("TourAPI").AddEntityFrameworkStores<TourAPIDbContext>().AddDefaultTokenProviders();
-	//AddDefaultTokenProviders() dung de tao token reset password,change email,...
+//AddDefaultTokenProviders() dung de tao token reset password,change email,...
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
 	// config user, password,...
 	options.Password.RequireDigit = false;
-	options.Password.RequireUppercase= false;
+	options.Password.RequireUppercase = false;
 });
 
-builder.Services.AddAuthentication(options => {
+builder.Services.AddAuthentication(options =>
+{
 	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
@@ -110,6 +111,12 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+	FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+	RequestPath = "/Images"
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Walking_Tour_API.Data\Walking_Tour_API.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
+
 </Project>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Walking_Tour_API.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using Walking_Tour_API.Infrastructure.Context;
 namespace Walking_Tour_API.Infrastructure.Migrations
 {
     [DbContext(typeof(TourAPIDbContext))]
-    partial class TourAPIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230709075059_addImageTable")]
+    partial class addImageTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

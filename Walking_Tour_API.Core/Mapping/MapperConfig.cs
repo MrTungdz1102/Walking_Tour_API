@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Walking_Tour_API.Core.Models.Domain;
+using Walking_Tour_API.Core.Models.DTO.Image;
 using Walking_Tour_API.Core.Models.DTO.Region;
 using Walking_Tour_API.Core.Models.DTO.Travel;
 using Walking_Tour_API.Core.Models.DTO.User;
@@ -29,6 +30,8 @@ namespace Walking_Tour_API.Core.Mapping
 			CreateMap<Travel, DetailTravelDTO>().ReverseMap();
 
 			CreateMap<IdentityUser, RegisterDTO>().ReverseMap();
+
+			CreateMap<UploadImageDTO, Image>().ForMember(dest => dest.FileExtension, opt => opt.MapFrom(src => Path.GetExtension(src.File.FileName))).ForMember(dest => dest.FileSizeInBytes, opt => opt.MapFrom(src => src.File.Length)).ReverseMap();
 		}
 	}
 }
