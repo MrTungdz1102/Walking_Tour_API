@@ -12,9 +12,10 @@ using Walking_Tour_API.Infrastructure.CustomActionFilter;
 
 namespace Walking_Tour_API.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/v{version:apiVersion}/[controller]")]
 	[ApiController]
-	[Authorize]
+	//	[Authorize]
+	[ApiVersion("1.0", Deprecated = true)]
 	public class RegionsController : ControllerBase
 	{
 		private readonly IUnitOfWork _unit;

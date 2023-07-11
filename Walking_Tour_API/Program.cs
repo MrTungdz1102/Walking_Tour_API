@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Text;
 using Walking_Tour_API.Core.Interface;
 using Walking_Tour_API.Core.Interface.Repositories;
@@ -12,6 +15,7 @@ using Walking_Tour_API.Core.Mapping;
 using Walking_Tour_API.Infrastructure.Context;
 using Walking_Tour_API.Infrastructure.Middleware;
 using Walking_Tour_API.Infrastructure.Repository;
+using Walking_Tour_API.SwaggerConfig;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +23,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<TourAPIDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+var logger = new LoggerConfiguration()
+	.WriteTo.Console()
+	.WriteTo.File("Logs/TourAPI_Log.txt", rollingInterval: RollingInterval.Day)
+	.MinimumLevel.Warning()
+	.CreateLogger(); // nen cau hinh trong appsetting.json, k can package serilog.file
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 
 // builder.Services.AddScoped(IGenericService<>, typeof(GenericService<Region, GetRegionDTO, AddRegionDTO, UpdateRegionDTO>));
@@ -69,7 +82,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-	options.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel List API", Version = "v1" });
+	// comment de config version cho swagger
+//	options.SwaggerDoc("v1", new OpenApiInfo { Title = "Walking Tour API", Version = "v1" });
 	options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
 	{
 		Description = @"JWT Authorization header using the Bearer scheme. 
@@ -99,13 +113,41 @@ builder.Services.AddSwaggerGen(options =>
 	});
 });
 
+builder.Services.ConfigureOptions<SwaggerConfiguration>();
+
+builder.Services.AddApiVersioning(options =>
+{
+	options.ReportApiVersions = true;
+	// for swagger
+	//options.ApiVersionReader = ApiVersionReader.Combine(
+	//	new HeaderApiVersionReader("X-Version"),
+	//	new QueryStringApiVersionReader("api-version"),
+	//	new MediaTypeApiVersionReader("ver"));
+	options.AssumeDefaultVersionWhenUnspecified = true;
+	options.DefaultApiVersion = new ApiVersion(1, 0);
+}); // version 
+
+builder.Services.AddVersionedApiExplorer(options =>
+{
+	options.GroupNameFormat = "'v'VVV";
+	options.SubstituteApiVersionInUrl = true;
+}); // for swagger 
+
+
+
 var app = builder.Build();
+
+var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
-	app.UseSwaggerUI();
+	app.UseSwaggerUI(options =>
+	{
+		foreach (var description in provider.ApiVersionDescriptions) { 
+			options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant()); }
+	});
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
