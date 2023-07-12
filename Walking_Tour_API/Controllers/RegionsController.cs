@@ -56,9 +56,9 @@ namespace Walking_Tour_API.Controllers
 			return CreatedAtAction(nameof(GetRegionById), new { id = result.Id }, result);
 		}
 		
-		[HttpPut("{id:Guid}")]
+		[HttpPut("Update/{id:Guid}")]
 		[ValidateModel]
-		public async Task<IActionResult> EditRegion([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
+        public async Task<IActionResult> EditRegion([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
 		{
 			var region = await _unit.Region.FindAsync(id);
 			_mapper.Map(updateRegionDTO, region);
